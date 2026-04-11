@@ -1,5 +1,6 @@
 import React from 'react';
-import { Eye, Shield, Award, Clock } from 'lucide-react';
+import { Eye, Shield, Award, Clock, ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export const Services: React.FC = () => {
   const services = [
@@ -34,74 +35,90 @@ export const Services: React.FC = () => {
   ];
 
   return (
-    <section className="bg-gradient-to-b from-white to-cyan-50 py-20">
-      <div className="container mx-auto px-4">
+    <section className="relative py-24 overflow-hidden bg-gradient-to-b from-white to-cyan-50 dark:from-zinc-900 dark:to-zinc-950">
 
-        {/* Encabezado */}
+      {/* decoraciones fondo */}
+      <div className="absolute -top-20 -left-20 w-72 h-72 bg-cyan-400/30 blur-3xl rounded-full" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-blue-500/20 blur-3xl rounded-full" />
+
+      <div className="container mx-auto px-4 relative z-10">
+
+        {/* encabezado */}
         <div className="max-w-2xl mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Nuestros Servicios
           </h2>
-          <p className="text-gray-600 text-lg">
-            En <span className="font-semibold text-cyan-600">Lúmina</span> combinamos
-            tecnología, experiencia clínica y estilo para ofrecerte el mejor cuidado visual.
+
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
+            En <span className="text-cyan-500 font-semibold">Lúmina</span> combinamos
+            tecnología, experiencia clínica y estilo para tu salud visual.
           </p>
         </div>
 
-        {/* Grid */}
+        {/* grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-          {services.map((s) => (
-            <div
+          {services.map((s, index) => (
+            <motion.div
               key={s.title}
-              className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -8 }}
+              className="group rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-md hover:shadow-2xl transition-all duration-300"
             >
 
-              {/* BLOQUE SUPERIOR (imagen) */}
-              <div className="relative h-40">
+              {/* imagen */}
+              <div className="relative h-44 overflow-hidden">
                 <img
                   src={s.image}
                   alt={s.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                 />
 
-                {/* overlay */}
-                <div className="absolute inset-0 bg-black/50" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                {/* contenido encima */}
-                <div className="absolute inset-0 flex flex-col justify-end p-4 text-white">
+                {/* icono */}
+                <motion.div
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                  className="absolute top-3 left-3 w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center shadow-lg"
+                >
+                  {s.icon}
+                </motion.div>
 
-                  <div className="w-9 h-9 flex items-center justify-center rounded-full bg-cyan-500 mb-2">
-                    {s.icon}
-                  </div>
-
+                <div className="absolute bottom-4 left-4 text-white">
                   <h3 className="font-semibold text-lg">
                     {s.title}
                   </h3>
-
                 </div>
               </div>
 
-              {/* BLOQUE INFERIOR (info) */}
-              <div className="bg-white p-5">
+              {/* contenido */}
+              <div className="p-5">
 
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                   {s.desc}
                 </p>
 
-                {/* beneficios */}
-                <ul className="space-y-1">
+                <ul className="space-y-2 mb-4">
                   {s.benefits.map((b, i) => (
-                    <li key={i} className="text-xs text-gray-500 flex items-center gap-2">
+                    <li key={i} className="text-xs flex items-center gap-2 text-gray-500 dark:text-gray-400">
                       <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
                       {b}
                     </li>
                   ))}
                 </ul>
 
+                {/* CTA */}
+                <button className="flex items-center gap-2 text-sm font-medium text-cyan-600 hover:gap-3 transition-all">
+                  Ver más <ArrowRight className="w-4 h-4" />
+                </button>
+
               </div>
 
-            </div>
+            </motion.div>
           ))}
 
         </div>
